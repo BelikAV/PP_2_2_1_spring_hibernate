@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Table(name = "users")
 public class User {
 
+
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
@@ -20,12 +21,17 @@ public class User {
    private String email;
 
    public User() {}
-   
-   public User(String firstName, String lastName, String email) {
+
+   public User(String firstName, String lastName, String email, Car car) {
       this.firstName = firstName;
       this.lastName = lastName;
       this.email = email;
+      this.car = car;
    }
+
+   @OneToOne(cascade = CascadeType.ALL)
+   @JoinColumn(name = "car_id",referencedColumnName = "id")
+   private Car car;
 
    public Long getId() {
       return id;
@@ -58,4 +64,30 @@ public class User {
    public void setEmail(String email) {
       this.email = email;
    }
+   public Car getCar() {
+      return car;
+   }
+
+   public void setCar(Car car) {
+      this.car = car;
+   }
+
+   @Override
+   public String toString() {
+      return "User{" +
+              "id=" + id +
+              ", firstName='" + firstName + '\'' +
+              ", lastName='" + lastName + '\'' +
+              ", email='" + email + '\'' +
+              ", car=" + car +
+              '}';
+   }
 }
+
+
+//Тз уже более адекватное и все понятно. Напишу для тех, кто запутался, создаете свой класс кар по аналогии с юзером,
+//далее переходите в db_properties там вставляете свои данные, после этого смотрите пару роликов про OneToOne,
+//далее связываете свои классы через конструктор, поле, сеттер. Я делал через сеттер, после чего у вас уже почти
+//все готово, осталось добавить свой кар класс в настройки хибера, находите нужный класс и там будет добавить
+//в аннотациионные классы свой, просто рядом через запятую, далее осталось написать метод, пишите его в юзер дао,
+//и в дао импл реализуете его при помощи hql запроса - с ним конечно повозился, ну и в сервисы тоже этот метод добавьте.
