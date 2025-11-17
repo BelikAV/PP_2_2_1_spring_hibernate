@@ -29,7 +29,7 @@ public class User {
       this.car = car;
    }
 
-   @OneToOne(cascade = CascadeType.ALL)
+   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
    @JoinColumn(name = "car_id",referencedColumnName = "id")
    private Car car;
 
